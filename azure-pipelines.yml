@@ -16,8 +16,7 @@ steps:
   displayName: 'Install Node.js'
 - script: |
     npm install
-    npm run build
-  displayName: 'npm install and build'
+  displayName: 'npm install'
 - task: CmdLine@2
   inputs:
     script: 'tsc PublishReleaseArtifactTask'
