@@ -22,7 +22,7 @@ steps:
 - task: PackageAzureDevOpsExtension@2
   inputs:
     rootFolder: '.'
-    outputPath: '
+    outputPath: ''
     updateTasksVersion: false
     extensionPricing: 'free'
 
@@ -38,4 +38,4 @@ steps:
     connectedServiceName: 'Marketplace'
     method: 'vsix'
     vsixFile: '$(Pipeline.Workspace)/Package/PublishReleaseArtifactsExtension.vsix'
-    accounts: 'https://benjsawesometfstest.visualstudio.com''
+    accounts: 'https://benjsawesometfstest.visualstudio.com'
