@@ -22,7 +22,7 @@ steps:
 - task: PackageAzureDevOpsExtension@2
   inputs:
     rootFolder: '.'
-    outputPath: ''
+    outputPath: '$(Pipeline.Workspace)/Package/PublishReleaseArtifactsExtension.vsix'
     updateTasksVersion: false
     extensionPricing: 'free'
 
