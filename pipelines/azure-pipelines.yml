@@ -22,6 +22,12 @@ steps:
 - task: PackageAzureDevOpsExtension@2
   inputs:
     rootFolder: '.'
-    outputPath: 'PublishReleaseArtifactsExtension.vsix'
+    outputPath: '$(Pipeline.Workspace)/Package/PublishReleaseArtifactsExtension.vsix'
     updateTasksVersion: false
     extensionPricing: 'free'
+
+- task: PublishPipelineArtifact@1
+  inputs:
+    targetPath: '$(Pipeline.Workspace)/Package'
+    artifact: 'Package'
+    publishLocation: 'pipeline'
