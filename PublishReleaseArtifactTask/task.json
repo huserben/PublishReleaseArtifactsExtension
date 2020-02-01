@@ -15,12 +15,20 @@
    "instanceNameFormat": "Upload Release Artifact $(artifactName)",
    "inputs": [
       {
-         "name": "artifactName",
+         "name": "artifactPath",
          "type": "string",
-         "label": "Artifact Name",
+         "label": "Path to file or folder that should be uploaded (folders will be zipped)",
          "defaultValue": "",
          "required": true,
-         "helpMarkDown": "Artifact"
+         "helpMarkDown": ""
+      },
+      {
+         "name": "outputVariable",
+         "type": "string",
+         "label": "Name of the artifact to use in a download task",
+         "defaultValue": "",
+         "required": false,
+         "helpMarkDown": ""
       }
    ],
    "execution": {

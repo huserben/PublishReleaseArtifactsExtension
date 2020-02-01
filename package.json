@@ -3,10 +3,11 @@
   "version": "1.0.0",
   "description": "Let's you publish and download release artifacts in an Azure DevOps Release Pipeline similar to the built-in functionality that only works in Build Pipelines",
   "main": "index.js",
-  "scripts": {
-    "build": "tsc",
-    "test": "mocha PublishReleaseArtifactTask/tests/_suite.js"
-  },
+   "scripts": {
+      "build": "tsc",
+      "test": "mocha PublishReleaseArtifactTask/tests/_suite.js",
+      "package": "tfx extension create --manifest-globs vss-extension.json"
+   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/huserben/PublishReleaseArtifactsExtension.git"
@@ -18,12 +19,15 @@
   },
   "homepage": "https://github.com/huserben/PublishReleaseArtifactsExtension#readme",
   "dependencies": {
-    "azure-pipelines-task-lib": "^2.9.3"
+    "azure-devops-node-api": "^10.0.0",
+    "azure-pipelines-task-lib": "^2.9.3",
+    "zip-local": "^0.3.4"
   },
   "devDependencies": {
     "@types/mocha": "^7.0.1",
     "@types/node": "^13.7.0",
     "@types/q": "^1.5.2",
+    "@types/vso-node-api": "^4.0.0",
     "mocha": "^7.0.1",
     "sync-request": "^6.1.0"
   }
