@@ -29,12 +29,12 @@ stages:
         updateTasksVersion: false
         extensionPricing: 'free'
     - task: PublishAzureDevOpsExtension@2
-            inputs:
-              connectTo: 'VsTeam'
-              connectedServiceName: 'Marketplace'
-              fileType: 'vsix'
-              vsixFile: '**/PublishReleaseArtifactsExtension.vsix'
-              updateTasksVersionType: 'patch'
-              extensionVisibility: 'privatepreview'
-              extensionPricing: 'free'
-              shareWith: 'https://benjsawesometfstest.visualstudio.com'
+      inputs:
+        connectTo: 'VsTeam'
+        connectedServiceName: 'Marketplace'
+        fileType: 'vsix'
+        vsixFile: '**/PublishReleaseArtifactsExtension.vsix'
+        updateTasksVersionType: 'patch'
+        extensionVisibility: 'privatepreview'
+        extensionPricing: 'free'
+        shareWith: 'https://benjsawesometfstest.visualstudio.com'
