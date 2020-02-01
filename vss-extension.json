@@ -1,0 +1,36 @@
+{
+   "manifestVersion": 1,
+   "id": "ReleaseArtifacts",
+   "name": "Publish and Download Artifacts from Release Pipelines",
+   "version": "1.0.",
+   "publisher": "benjhuser",
+   "targets": [
+      {
+         "id": "Microsoft.VisualStudio.Services"
+      }
+   ],
+   "description": "Tasks for uploading and downloading artifacts in a release pipeline",
+   "categories": [
+      "Azure Pipelines"
+   ],
+   "icons": {
+      "default": "images/upload_icon.png"
+   },
+   "files": [
+      {
+         "path": "PublishReleaseArtifactTask"
+      }
+   ],
+   "contributions": [
+      {
+         "id": "PublishReleaseArtifact",
+         "type": "ms.vss-distributed-task.task",
+         "targets": [
+            "ms.vss-distributed-task.tasks"
+         ],
+         "properties": {
+            "name": "PublishReleaseArtifactTask"
+         }
+      }
+   ]
+}
