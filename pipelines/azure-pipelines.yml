@@ -28,17 +28,7 @@ stages:
         outputPath: '$(Pipeline.Workspace)/Package/'
         updateTasksVersion: false
         extensionPricing: 'free'
-- stage: Deploy
-  jobs:
-  - deployment: PublishExtension
-  pool:
-    vmImage: 'ubuntu-latest'
-  environment: 'PublishToMarketPlace'
-  strategy:
-    runOnce:
-      deploy:
-        steps:
-          - task: PublishAzureDevOpsExtension@2
+    - task: PublishAzureDevOpsExtension@2
             inputs:
               connectTo: 'VsTeam'
               connectedServiceName: 'Marketplace'
