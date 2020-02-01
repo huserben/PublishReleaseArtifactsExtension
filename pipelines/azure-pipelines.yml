@@ -28,17 +28,6 @@ stages:
         outputPath: '$(Pipeline.Workspace)/Package/PublishReleaseArtifactsExtension.vsix'
         updateTasksVersion: false
         extensionPricing: 'free'
-    - task: PublishAzureDevOpsExtension@2
-      inputs:
-        connectTo: 'VsTeam'
-        connectedServiceName: 'Marketplace'
-        fileType: 'vsix'
-        vsixFile: '$(Pipeline.Workspace)/Package/PublishReleaseArtifactsExtension.vsix'
-        updateTasksVersionType: 'patch'
-        extensionVisibility: 'privatepreview'
-        extensionPricing: 'free'
-        extensionVersion: '1.0.0'
-        shareWith: 'https://benjsawesometfstest.visualstudio.com'
     - task: PublishPipelineArtifact@1
       inputs:
         targetPath: '$(Pipeline.Workspace)/Package'
