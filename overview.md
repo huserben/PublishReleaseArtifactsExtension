@@ -28,4 +28,4 @@ The last option is optional and only has effect when the artifact is a zip file.
 ![Download Task](https://raw.githubusercontent.com/huserben/PublishReleaseArtifactsExtension/master/images/DownloadTask_Detailed.png)
 
 ## Icons
-Icons where made by Kiranshastry from [](www.flaticon.com)
+Icons where made by [Kiranshastry](https://www.flaticon.com/authors/kiranshastry) from [https://www.flaticon.com](https://www.flaticon.com)
