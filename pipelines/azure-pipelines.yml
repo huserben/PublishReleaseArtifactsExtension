@@ -13,9 +13,6 @@ stages:
     pool:
       vmImage: 'ubuntu-latest'
     steps:
-    - task: TfxInstaller@2
-      inputs:
-        version: 'v0.6.x'
     - task: NodeTool@0
       inputs:
         versionSpec: '10.x'
@@ -30,6 +27,6 @@ stages:
       displayName: 'npm install and build'
     - task: PublishPipelineArtifact@1
       inputs:
-        targetPath: '$(System.WorkingDirectory)'
+        targetPath: '.'
         artifact: 'PublishReleaseArtifactsExtension'
         publishLocation: 'pipeline'
