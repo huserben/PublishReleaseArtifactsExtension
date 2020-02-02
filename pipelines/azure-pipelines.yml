@@ -28,16 +28,8 @@ stages:
         npm install
         npm run build
       displayName: 'npm install and build'
-    - task: PackageAzureDevOpsExtension@2
-      inputs:
-        rootFolder: '.'
-        outputPath: '$(Pipeline.Workspace)/Package/PublishReleaseArtifactsExtension.vsix'
-        updateTasksVersion: true
-        updateTasksVersionType: 'patch'
-        extensionVisibility: 'public_preview'
-        extensionPricing: 'free'
     - task: PublishPipelineArtifact@1
       inputs:
-        targetPath: '$(Pipeline.Workspace)/Package'
+        targetPath: '$(System.WorkingDirectory)'
         artifact: 'PublishReleaseArtifactsExtension'
         publishLocation: 'pipeline'
