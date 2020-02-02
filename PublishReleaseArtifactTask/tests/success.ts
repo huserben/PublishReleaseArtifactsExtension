@@ -5,6 +5,7 @@ import path = require('path');
 let taskPath = path.join(__dirname, '..', 'index.js');
 let tmr: tmrm.TaskMockRunner = new tmrm.TaskMockRunner(taskPath);
 
-tmr.setInput('artifactName', 'human');
+tmr.setInput('artifactName', 'someArtifactName');
+tmr.setInput('artifactPath', 'someArtifactPath');
 
 tmr.run();

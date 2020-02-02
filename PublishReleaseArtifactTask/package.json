@@ -5,8 +5,8 @@
   "main": "index.js",
    "scripts": {
       "build": "tsc",
-      "test": "mocha PublishReleaseArtifactTask/tests/_suite.js",
-      "package": "tfx extension create --manifest-globs vss-extension.json"
+      "test": "mocha tests/_suite.js",
+      "package": "cd .. && tfx extension create --manifest-globs vss-extension.json"
    },
   "repository": {
     "type": "git",
