@@ -28,7 +28,19 @@
 		{
 			"path": "images/task_selection.png"
 		}
-	],
+   ],
+   "links":{
+		"repository":{
+			"uri": "https://github.com/huserben/PublishReleaseArtifactsExtension"
+		},
+		"license":{
+			"uri": "https://github.com/huserben/PublishReleaseArtifactsExtension/blob/master/LICENSE"
+		}
+	},
+	"repository": {
+		"type": "git",
+		"uri":	"https://github.com/huserben/PublishReleaseArtifactsExtension"
+	},
    "files": [
       {
          "path": "PublishReleaseArtifactTask"
@@ -45,8 +57,7 @@
             "ms.vss-distributed-task.tasks"
          ],
          "properties": {
-            "name": "PublishReleaseArtifactTask",
-            "icons": "images/upload_icon.png"
+            "name": "PublishReleaseArtifactTask"
          }
       },
       {
@@ -56,9 +67,15 @@
             "ms.vss-distributed-task.tasks"
          ],
          "properties": {
-            "name": "DownloadReleaseArtifactTask",
-            "icons": "images/download_icon.png"
+            "name": "DownloadReleaseArtifactTask"
          }
       }
-   ]
+   ],
+   "branding": {
+      "color": "rgb(255, 153, 0)",
+      "theme": "light"
+  },
+  "galleryFlags": [
+      "Private"
+  ]
 }
