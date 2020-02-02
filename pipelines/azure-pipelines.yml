@@ -6,36 +6,30 @@
 trigger:
 - master
 
-pool:
-  vmImage: 'ubuntu-latest'
+stages:
+- stage: Build
+  jobs:
+  - job: Build
+    pool:
+      vmImage: 'ubuntu-latest'
+    steps:
+    - task: NodeTool@0
+      inputs:
+        versionSpec: '10.x'
+      displayName: 'Install Node.js'
+    - script: |
+        npm install
+        npm run build
+      displayName: 'npm install and build and test'
 
-steps:
-- task: NodeTool@0
-  inputs:
-    versionSpec: '10.x'
-  displayName: 'Install Node.js'
-- script: |
-    npm install
-    npm run build
-  displayName: 'npm install and build and test'
-
-- task: PackageAzureDevOpsExtension@2
-  inputs:
-    rootFolder: '.'
-    outputPath: ''
-    updateTasksVersion: false
-    extensionPricing: 'free'
-
-- task: PublishPipelineArtifact@1
-  inputs:
-    targetPath: '$(Pipeline.Workspace)/Package'
-    artifact: 'Package'
-    publishLocation: 'pipeline'
-
-- task: InstallAzureDevOpsExtension@2
-  inputs:
-    connectTo: 'VsTeam'
-    connectedServiceName: 'Marketplace'
-    method: 'vsix'
-    vsixFile: '$(Pipeline.Workspace)/Package/PublishReleaseArtifactsExtension.vsix'
-    accounts: 'https://benjsawesometfstest.visualstudio.com'
+    - task: PackageAzureDevOpsExtension@2
+      inputs:
+        rootFolder: '.'
+        outputPath: '$(Pipeline.Workspace)/Package/PublishReleaseArtifactsExtension.vsix'
+        updateTasksVersion: false
+        extensionPricing: 'free'
+    - task: PublishPipelineArtifact@1
+      inputs:
+        targetPath: '$(Pipeline.Workspace)/Package'
+        artifact: 'PublishReleaseArtifactsExtension'
+        publishLocation: 'pipeline'
