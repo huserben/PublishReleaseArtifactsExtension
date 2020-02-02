@@ -27,7 +27,7 @@ stages:
       displayName: 'npm install and build and test'
     - task: PackageAzureDevOpsExtension@2
       inputs:
-        rootFolder: 'PublishReleaseArtifactTask/'
+        rootFolder: '.'
         outputPath: '$(Pipeline.Workspace)/Package/PublishReleaseArtifactsExtension.vsix'
         updateTasksVersion: false
         extensionPricing: 'free'
