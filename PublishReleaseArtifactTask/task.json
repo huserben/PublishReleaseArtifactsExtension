@@ -9,8 +9,8 @@
    "author": "Benjamin Huser",
    "version": {
       "Major": 0,
-      "Minor": 2,
-      "Patch": 5
+      "Minor": 9,
+      "Patch": 0
    },
    "instanceNameFormat": "Upload Release Artifact $(artifactPath)",
    "inputs": [
