@@ -6,7 +6,7 @@
    "description": "Let's you download a Release Artifacts that was uploaded to the Release Logs in a previous step",
    "helpMarkDown": "",
    "category": "Utility",
-   "author": "huserben",
+   "author": "Benjamin Huser",
    "version": {
       "Major": 0,
       "Minor": 1,

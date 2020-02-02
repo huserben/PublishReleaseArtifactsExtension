@@ -6,7 +6,7 @@
    "description": "Let's you create Release Artifacts that will be uploaded to the Release Logs",
    "helpMarkDown": "",
    "category": "Utility",
-   "author": "huserben",
+   "author": "Benjamin Huser",
    "version": {
       "Major": 0,
       "Minor": 2,

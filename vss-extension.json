@@ -16,6 +16,14 @@
    "icons": {
       "default": "images/upload_icon.png"
    },
+   "content":{
+      "details":{
+			"path": "overview.md"
+		},
+		"license": {
+			"path": "LICENSE"
+		}
+   },
    "files": [
       {
          "path": "PublishReleaseArtifactTask"
