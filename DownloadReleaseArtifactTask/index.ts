@@ -33,16 +33,48 @@ async function run() {
       console.log("Found following matching artifacts:")
       var matchingFiles: string[] = findMatchingArtifacts(logsFolder, artifactName);
 
+      var artifactPath: string = "";
+
       if (matchingFiles.length < 1) {
          console.log("No Artifacts found - will fail task");
          tl.setResult(tl.TaskResult.Failed, "No matching artifact found");
       }
       else {
          if (matchingFiles.length > 1) {
-            console.log("Multiple Artifacts found that match - will continue with first one...");
+            console.log("Multiple Artifacts found that match - will try to find best match...");
+            var currentAttempt: string = `${process.env["RELEASE_ATTEMPTNUMBER"]}`;
+
+            var attemptFolderName: string = `Attempt${currentAttempt}`;
+
+            console.log(`Current Deployment is the ${currentAttempt} attempt - will prefer artifacts from this attempt...`);
+            var artifactsMatchingAttempt: string[] = [];
+
+            matchingFiles.forEach(matchingFile => {
+               if (matchingFile.includes(attemptFolderName)) {
+                  artifactsMatchingAttempt.push(matchingFile);
+                  console.log(`${matchingFile} is matching current attempt`);
+               }
+            });
+
+            if (artifactsMatchingAttempt.length < 1) {
+               console.log("No artifact found that matches attempt - will use first artifact");
+               artifactPath = matchingFiles[0];
+            }
+            else {
+               if (artifactsMatchingAttempt.length == 1){
+                  console.log("Found exactly 1 artifact matching the attempt, will continue with this.")
+               }
+               else{
+                  console.log("Found multiple artifacts that match attempt - will use first one.")
+               }
+               
+               artifactPath = artifactsMatchingAttempt[0];
+            }
+         }
+         else {
+            artifactPath = matchingFiles[0];
          }
 
-         var artifactPath: string = matchingFiles[0];
          copyArtifactToStorageLocation(artifactPath, unzipInCaseOfZip, artifactName, artifactStorageLocation);
       }
    }
@@ -52,7 +84,7 @@ async function run() {
 }
 
 function copyArtifactToStorageLocation(artifactPath: string, unzipInCaseOfZip: boolean, artifactName: string, artifactStorageLocation: string) {
-   if (!fs.existsSync(artifactStorageLocation)){
+   if (!fs.existsSync(artifactStorageLocation)) {
       console.log(`Artifacts Directory ${artifactStorageLocation} does not exist - will be created`);
       fs.mkdirSync(artifactStorageLocation);
    }
