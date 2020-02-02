@@ -2,7 +2,7 @@
    "manifestVersion": 1,
    "id": "ReleaseArtifacts",
    "name": "Publish and Download Artifacts from Release Pipelines",
-   "version": "1.0.7",
+   "version": "1.0.13",
    "publisher": "benjhuser",
    "targets": [
       {
@@ -19,6 +19,9 @@
    "files": [
       {
          "path": "PublishReleaseArtifactTask"
+      },
+      {
+         "path": "DownloadReleaseArtifactTask"
       }
    ],
    "contributions": [
@@ -29,7 +32,19 @@
             "ms.vss-distributed-task.tasks"
          ],
          "properties": {
-            "name": "PublishReleaseArtifactTask"
+            "name": "PublishReleaseArtifactTask",
+            "icons": "images/upload_icon.png"
+         }
+      },
+      {
+         "id": "DownloadReleaseArtifact",
+         "type": "ms.vss-distributed-task.task",
+         "targets": [
+            "ms.vss-distributed-task.tasks"
+         ],
+         "properties": {
+            "name": "DownloadReleaseArtifactTask",
+            "icons": "images/download_icon.png"
          }
       }
    ]

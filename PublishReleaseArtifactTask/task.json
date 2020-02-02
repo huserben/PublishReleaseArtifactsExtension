@@ -12,7 +12,7 @@
       "Minor": 2,
       "Patch": 3
    },
-   "instanceNameFormat": "Upload Release Artifact $(artifactName)",
+   "instanceNameFormat": "Upload Release Artifact $(artifactPath)",
    "inputs": [
       {
          "name": "artifactPath",

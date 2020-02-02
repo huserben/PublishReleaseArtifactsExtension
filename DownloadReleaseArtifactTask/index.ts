@@ -1,0 +1,162 @@
+import tl = require('azure-pipelines-task-lib/task');
+import fs = require('fs');
+import path = require('path');
+import * as devopsapi from "azure-devops-node-api";
+import unzipper = require('unzipper');
+
+async function run() {
+   try {
+      var logsFolder: string = path.join(`${process.env['SYSTEM_DefaultWorkingDirectory']}`, 'DownloadReleaseArtifactTask');
+      var artifactName: string = getVariable('artifactName', true);
+      var artifactStorageLocation: string = getVariable('artifactStorageLocation', true);
+      var unzipInCaseOfZip: boolean = tl.getBoolInput('unzipFile', true);
+
+      console.log(`Will store logs in ${logsFolder}`);
+      console.log(`Looking for Artifact with the name ${artifactName}`);
+      console.log(`Matching Artifact will be copied to ${artifactStorageLocation}`);
+
+      if (fs.existsSync(logsFolder)) {
+         console.log(`Logs were already downloaded at ${logsFolder}`);
+      }
+      else {
+         console.log(`No existing Logs found - will initiating download...`)
+
+         fs.mkdirSync(logsFolder);
+
+         await downloadLogsAsync(logsFolder);
+
+         console.log('Successfully downloaded logs');
+      }
+
+      console.log('Looking for artifact...');
+
+      console.log("Found following matching artifacts:")
+      var matchingFiles: string[] = findMatchingArtifacts(logsFolder, artifactName);
+
+      if (matchingFiles.length < 1) {
+         console.log("No Artifacts found - will fail task");
+         tl.setResult(tl.TaskResult.Failed, "No matching artifact found");
+      }
+      else {
+         if (matchingFiles.length > 1) {
+            console.log("Multiple Artifacts found that match - will continue with first one...");
+         }
+
+         var artifactPath: string = matchingFiles[0];
+         copyArtifactToStorageLocation(artifactPath, unzipInCaseOfZip, artifactName, artifactStorageLocation);
+      }
+   }
+   catch (err) {
+      tl.setResult(tl.TaskResult.Failed, err.message);
+   }
+}
+
+function copyArtifactToStorageLocation(artifactPath: string, unzipInCaseOfZip: boolean, artifactName: string, artifactStorageLocation: string) {
+   if (!fs.existsSync(artifactStorageLocation)){
+      console.log(`Artifacts Directory ${artifactStorageLocation} does not exist - will be created`);
+      fs.mkdirSync(artifactStorageLocation);
+   }
+
+   if (path.extname(artifactPath) === '.zip' && unzipInCaseOfZip) {
+      console.log('Artifact is a zip and option to unzip was chosen - will unzip...');
+      var folderName: string = path.basename(artifactName).split('.').slice(0, -1).join('.');
+      var extractionDirectory: string = path.join(artifactStorageLocation, folderName);
+      fs.createReadStream(artifactPath).pipe(unzipper.Extract({ path: extractionDirectory }));
+      console.log(`Artifact unzipped to ${extractionDirectory}`);
+   }
+   else {
+      fs.copyFileSync(artifactPath, path.join(artifactStorageLocation, artifactName));
+      console.log(`Artifact copied to ${artifactStorageLocation}`);
+   }
+}
+
+function findMatchingArtifacts(logsFolder: string, artifactName: string) {
+   var matchingFiles: string[] = [];
+   var allFiles: string[] = getAllFilesIncludingSubfolders(logsFolder);
+   allFiles.forEach(file => {
+      if (file.endsWith(artifactName)) {
+         matchingFiles.push(file);
+         console.log(file);
+      }
+   });
+   return matchingFiles;
+}
+
+async function downloadLogsAsync(logsFolder: string): Promise<void> {
+   var organizationUrl: string = `${process.env["SYSTEM_TEAMFOUNDATIONCOLLECTIONURI"]}`;
+   var teamProject: string = `${process.env["SYSTEM_TEAMPROJECTID"]}`;
+   var token: string = `${process.env["SYSTEM_ACCESSTOKEN"]}`;
+   var releaseId: number = parseInt(`${process.env['RELEASE_RELEASEID']}`);
+
+   console.log('Will get logs for current Relese');
+   console.log(`Organization: ${organizationUrl}`);
+   console.log(`Team Project ID: ${teamProject}`);
+   console.log(`Release ID: ${releaseId}`);
+
+   var accessTokenAccessEnabled: boolean = process.env['SYSTEM_ENABLEACCESSTOKEN']?.toLowerCase() === "true";
+
+   if (!accessTokenAccessEnabled) {
+      tl.setResult(tl.TaskResult.Failed, 'OAuth Token could not be used - make sure to allow usage for the job that runs the download task.');
+      console.log('Could not read Access Token - failing the Task. Make sure access to Token is allowed in the Agent Phase setting.');
+      throw new Error("Could not read Access Token");
+   }
+
+   var authHandler = devopsapi.getHandlerFromToken(token);
+   var connection: devopsapi.WebApi = new devopsapi.WebApi(organizationUrl, authHandler);
+   var releaseapi = await connection.getReleaseApi();
+   var logs = await releaseapi.getLogs(teamProject, releaseId);
+
+   return new Promise((resolve, reject) => {
+
+      var stream = logs.pipe(unzipper.Extract({ path: logsFolder }));
+      stream.on("close", () => {
+         try {
+            resolve();
+         }
+         catch (err) {
+            reject(err);
+         }
+      });
+   });
+}
+
+function getAllFilesIncludingSubfolders(baseFolder: string): string[] {
+   var allFolders: string[] = [];
+   getAllSubFolders(baseFolder, allFolders);
+
+   var allFiles: string[] = [];
+
+   allFolders.forEach(folder => {
+      fs.readdirSync(folder).forEach(file => {
+         allFiles.push(path.join(folder, file));
+      })
+   });
+
+   return allFiles;
+}
+
+function getAllSubFolders(baseFolder: string, folderList: string[] = []): void {
+
+   let folders: string[] = fs.readdirSync(baseFolder).filter(file => fs.statSync(path.join(baseFolder, file)).isDirectory());
+   folders.forEach(folder => {
+      folderList.push(path.join(baseFolder, folder));
+      getAllSubFolders(path.join(baseFolder, folder), folderList);
+   });
+}
+
+function getVariable(variableName: string, isRequired: boolean): string {
+   const variable: string | undefined = tl.getInput(variableName, isRequired);
+   if (variable === null || variable === undefined) {
+      if (isRequired) {
+         tl.setResult(tl.TaskResult.Failed, 'Bad input was given');
+         throw new Error(`Variable ${variableName} not found`);
+      }
+      else {
+         return "";
+      }
+   }
+
+   return variable;
+}
+
+run();

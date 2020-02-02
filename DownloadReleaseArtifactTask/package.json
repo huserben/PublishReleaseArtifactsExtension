@@ -1,0 +1,36 @@
+{
+  "name": "downloadreleaseartifacttask",
+  "version": "1.0.0",
+  "description": "Let's you download a release artifact that before was uploaded using the Upload Task",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc",
+    "test": "mocha tests/_suite.js",
+    "package": "cd .. && tfx extension create --manifest-globs vss-extension.json"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/huserben/PublishReleaseArtifactsExtension.git"
+  },
+  "author": "huserben",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/huserben/PublishReleaseArtifactsExtension/issues"
+  },
+  "homepage": "https://github.com/huserben/PublishReleaseArtifactsExtension#readme",
+  "dependencies": {
+    "azure-devops-node-api": "^10.0.0",
+    "azure-pipelines-task-lib": "^2.9.3",
+    "unzipper": "^0.10.7",
+    "zip-local": "^0.3.4"
+  },
+  "devDependencies": {
+    "@types/mocha": "^7.0.1",
+    "@types/node": "^13.7.0",
+    "@types/q": "^1.5.2",
+    "@types/unzipper": "^0.10.1",
+    "@types/vso-node-api": "^4.0.0",
+    "mocha": "^7.0.1",
+    "sync-request": "^6.1.0"
+  }
+}
