@@ -13,6 +13,9 @@ stages:
     pool:
       vmImage: 'ubuntu-latest'
     steps:
+    - task: TfxInstaller@2
+      inputs:
+        version: 'v0.6.x'
     - task: NodeTool@0
       inputs:
         versionSpec: '10.x'
@@ -22,10 +25,9 @@ stages:
         npm install
         npm run build
       displayName: 'npm install and build and test'
-
     - task: PackageAzureDevOpsExtension@2
       inputs:
-        rootFolder: 'PublishReleaseArtifactTask'
+        rootFolder: 'PublishReleaseArtifactTask/'
         outputPath: '$(Pipeline.Workspace)/Package/PublishReleaseArtifactsExtension.vsix'
         updateTasksVersion: false
         extensionPricing: 'free'
