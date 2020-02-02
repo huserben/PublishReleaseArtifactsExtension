@@ -10,7 +10,7 @@
    "version": {
       "Major": 0,
       "Minor": 1,
-      "Patch": 5
+      "Patch": 8
    },
    "instanceNameFormat": "Download Release Artifact $(artifactName)",
    "inputs": [
@@ -25,7 +25,7 @@
       {
          "name": "artifactStorageLocation",
          "type": "filePath",
-         "label": "Location of where the artifact be copied to",
+         "label": "Artifact drop location",
          "defaultValue": "",
          "required": true,
          "helpMarkDown": ""
