@@ -9,25 +9,17 @@
    "author": "huserben",
    "version": {
       "Major": 0,
-      "Minor": 1,
-      "Patch": 0
+      "Minor": 2,
+      "Patch": 3
    },
    "instanceNameFormat": "Upload Release Artifact $(artifactName)",
    "inputs": [
       {
          "name": "artifactPath",
-         "type": "string",
+         "type": "filePath",
          "label": "Path to file or folder that should be uploaded (folders will be zipped)",
          "defaultValue": "",
          "required": true,
-         "helpMarkDown": ""
-      },
-      {
-         "name": "outputVariable",
-         "type": "string",
-         "label": "Name of the artifact to use in a download task",
-         "defaultValue": "",
-         "required": false,
          "helpMarkDown": ""
       }
    ],

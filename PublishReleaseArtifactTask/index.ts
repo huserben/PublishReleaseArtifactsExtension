@@ -6,7 +6,6 @@ var zipper = require('zip-local');
 async function run() {
    try {
       var artifactPath: string = getVariable('artifactPath', true);
-      var outputVariable: string = getVariable('outputVariable', false);
 
       if (!fs.existsSync(artifactPath)) {
          tl.setResult(tl.TaskResult.Failed, `No file or directory found at ${artifactPath}`);
@@ -17,16 +16,12 @@ async function run() {
          artifactPath = zip_file(artifactPath);
       }
       else {
-         console.log(`${artifactPath} is a file.`)
+         console.log(`${artifactPath} is a file - will upload as is.`)
       }
 
-      console.log(`##vso[task.uploadfile]${artifactPath}`)
-      if (outputVariable != "") {
-         var fileName: string = path.basename(artifactPath);
-
-         console.log(`##vso[task.setvariable variable=${outputVariable};]${fileName}`);
-      }
-
+      console.log(`Uploading ${artifactPath} to logs...`);
+      console.log(`##vso[task.uploadfile]${artifactPath}`);
+      console.log('Finished uploading - task complete')
    }
    catch (err) {
       tl.setResult(tl.TaskResult.Failed, err.message);
