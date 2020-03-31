@@ -6,7 +6,10 @@ import unzipper = require('unzipper');
 
 async function run() {
    try {
-      var logsFolder: string = path.join(`${process.env['SYSTEM_DefaultWorkingDirectory']}`, 'DownloadReleaseArtifactTask');
+
+      var defaultWorkingDirectory = `${process.env["SYSTEM_DEFAULTWORKINGDIRECTORY"]}`;
+
+      var logsFolder: string = path.join(defaultWorkingDirectory, 'DownloadReleaseArtifactTask');
       var artifactName: string = getVariable('artifactName', true);
       var artifactStorageLocation: string = getVariable('artifactStorageLocation', true);
       var unzipInCaseOfZip: boolean = tl.getBoolInput('unzipFile', true);
@@ -21,7 +24,7 @@ async function run() {
       else {
          console.log(`No existing Logs found - will initiating download...`)
 
-         fs.mkdirSync(logsFolder);
+         fs.mkdirSync(logsFolder, { recursive: true });
 
          await downloadLogsAsync(logsFolder);
 
