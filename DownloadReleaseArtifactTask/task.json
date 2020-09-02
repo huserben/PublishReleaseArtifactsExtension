@@ -37,6 +37,14 @@
          "defaultValue": false,
          "required": true,
          "helpMarkDown": ""
+      },
+      {
+         "name": "publishedInMultiConfigurationAgent",
+         "type": "boolean",
+         "label": "Artifacts were published in Multi-Configuration Agents",
+         "defaultValue": false,
+         "required": true,
+         "helpMarkDown": ""
       }
    ],
    "execution": {
