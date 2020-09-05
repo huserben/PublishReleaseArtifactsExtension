@@ -13,6 +13,7 @@ async function run() {
       var artifactName: string = getVariable('artifactName', true);
       var artifactStorageLocation: string = getVariable('artifactStorageLocation', true);
       var unzipInCaseOfZip: boolean = tl.getBoolInput('unzipFile', true);
+      var publishedInMultiConfigurationAgent: boolean = tl.getBoolInput('publishedInMultiConfigurationAgent', true);
 
       console.log(`Will store logs in ${logsFolder}`);
       console.log(`Looking for Artifact with the name ${artifactName}`);
@@ -64,14 +65,23 @@ async function run() {
                artifactPath = matchingFiles[0];
             }
             else {
-               if (artifactsMatchingAttempt.length == 1){
-                  console.log("Found exactly 1 artifact matching the attempt, will continue with this.")
-               }
-               else{
-                  console.log("Found multiple artifacts that match attempt - will use first one.")
-               }
+               if(publishedInMultiConfigurationAgent) {
+                  artifactsMatchingAttempt.forEach((artifact, index) => {
+                     copyArtifactToStorageLocation(artifact, unzipInCaseOfZip, artifactName, `${artifactStorageLocation}/multi_agent_N-${index}`);
+                  });
+
+                  return;
+               } 
+               else {
+                  if (artifactsMatchingAttempt.length == 1){
+                     console.log("Found exactly 1 artifact matching the attempt, will continue with this.")
+                  }
+                  else{
+                     console.log("Found multiple artifacts that match attempt - will use first one.")
+                  }
                
-               artifactPath = artifactsMatchingAttempt[0];
+                  artifactPath = artifactsMatchingAttempt[0];
+               }
             }
          }
          else {
@@ -143,7 +153,19 @@ async function downloadLogsAsync(logsFolder: string): Promise<void> {
 
    return new Promise((resolve, reject) => {
 
-      var stream = logs.pipe(unzipper.Extract({ path: logsFolder }));
+      var stream = logs.pipe(unzipper.Parse());
+      stream.on("entry", function (entry) {
+         const entryPath = entry.path;
+         const filename = path.parse(entryPath).base;
+         const fileDir = path.parse(entryPath).dir;
+         const parsedFileName = fileDir.replace(/,/g, "_").replace(/:/g, "_");
+         const fileExtractDir =  `${logsFolder}/${parsedFileName}`;
+
+         fs.mkdirSync(fileExtractDir, { recursive: true });
+
+         entry.pipe(fs.createWriteStream(`${fileExtractDir}/${filename}`));
+
+      });
       stream.on("close", () => {
          try {
             resolve();
