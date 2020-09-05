@@ -23,7 +23,9 @@ First of all the name of the artifact we want to download must be specified. Thi
 
 The second option let's you specify where the artifact should be copied to.
 
-The last option is optional and only has effect when the artifact is a zip file. You can chose whether you want to unzip it which will result in a new folder with the name of the zip at the drop location or if you want to keep it in a _zipped_ state and copy the full file to the drop location.
+The *Unzip Artifact* option is optional and only has effect when the artifact is a zip file. You can chose whether you want to unzip it which will result in a new folder with the name of the zip at the drop location or if you want to keep it in a _zipped_ state and copy the full file to the drop location.
+
+Last but not least you should check the last option in case you run the download task during a multi-configuration job - if not done there will be a timeout in the task.
 
 ![Download Task](https://raw.githubusercontent.com/huserben/PublishReleaseArtifactsExtension/master/images/DownloadTask_Detailed.png)
 
