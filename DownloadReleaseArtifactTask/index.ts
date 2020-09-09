@@ -99,7 +99,7 @@ async function run() {
 function copyArtifactToStorageLocation(artifactPath: string, unzipInCaseOfZip: boolean, artifactName: string, artifactStorageLocation: string) {
    if (!fs.existsSync(artifactStorageLocation)) {
       console.log(`Artifacts Directory ${artifactStorageLocation} does not exist - will be created`);
-      fs.mkdirSync(artifactStorageLocation);
+      fs.mkdirSync(artifactStorageLocation, { recursive: true });
    }
 
    if (path.extname(artifactPath) === '.zip' && unzipInCaseOfZip) {
