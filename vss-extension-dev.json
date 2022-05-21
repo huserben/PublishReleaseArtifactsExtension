@@ -3,7 +3,7 @@
    "id": "ReleaseArtifacts",
    "name": "Publish and Download Artifacts from Release Pipelines",
    "version": "1.1.1",
-   "publisher": "benjhuser",
+   "publisher": "benjhuser-dev",
    "targets": [
       {
          "id": "Microsoft.VisualStudio.Services"
@@ -76,6 +76,6 @@
       "theme": "light"
   },
   "galleryFlags": [
-      "Public"
+      "Private"
   ]
 }

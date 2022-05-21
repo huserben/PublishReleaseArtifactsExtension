@@ -23,7 +23,7 @@ async function run() {
       console.log(`##vso[task.uploadfile]${artifactPath}`);
       console.log('Finished uploading - task complete')
    }
-   catch (err) {
+   catch (err: ?) {
       tl.setResult(tl.TaskResult.Failed, err.message);
    }
 }
