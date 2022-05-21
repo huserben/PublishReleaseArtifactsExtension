@@ -91,7 +91,7 @@ async function run() {
          copyArtifactToStorageLocation(artifactPath, unzipInCaseOfZip, artifactName, artifactStorageLocation);
       }
    }
-   catch (err) {
+   catch (err: ?) {
       tl.setResult(tl.TaskResult.Failed, err.message);
    }
 }
@@ -115,15 +115,21 @@ function copyArtifactToStorageLocation(artifactPath: string, unzipInCaseOfZip: b
    }
 }
 
-function findMatchingArtifacts(logsFolder: string, artifactName: string) {
+function findMatchingArtifacts(logsFolder: string, artifactName: string) : string[] {
    var matchingFiles: string[] = [];
-   var allFiles: string[] = getAllFilesIncludingSubfolders(logsFolder);
-   allFiles.forEach(file => {
-      if (file.endsWith(artifactName)) {
-         matchingFiles.push(file);
-         console.log(file);
+   var allFiles: [fullPath: string, filePath: string][] = getAllFilesIncludingSubfolders(logsFolder);
+
+   for (const [fullPath, filePath] of allFiles){
+      // https://stackoverflow.com/a/4607799/909040
+      var fileNameWithoutPrefix = filePath.split(/_(.*)/s)[1]
+
+      if (fileNameWithoutPrefix.endsWith(artifactName)) {
+         matchingFiles.push(fullPath);
+         console.log(fullPath);
       }
-   });
+   }
+
+
    return matchingFiles;
 }
 
@@ -177,15 +183,16 @@ async function downloadLogsAsync(logsFolder: string): Promise<void> {
    });
 }
 
-function getAllFilesIncludingSubfolders(baseFolder: string): string[] {
+function getAllFilesIncludingSubfolders(baseFolder: string): [fullPath: string, fileName: string][] {
    var allFolders: string[] = [];
    getAllSubFolders(baseFolder, allFolders);
 
-   var allFiles: string[] = [];
+   var allFiles: [string, string][] = [];
 
    allFolders.forEach(folder => {
       fs.readdirSync(folder).forEach(file => {
-         allFiles.push(path.join(folder, file));
+         var fullPath = path.join(folder, file);
+         allFiles.push([fullPath, file]);
       })
    });
 
