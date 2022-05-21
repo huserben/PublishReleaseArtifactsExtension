@@ -123,7 +123,7 @@ function findMatchingArtifacts(logsFolder: string, artifactName: string) : strin
       // https://stackoverflow.com/a/4607799/909040
       var fileNameWithoutPrefix = filePath.split(/_(.*)/s)[1]
 
-      if (fileNameWithoutPrefix.endsWith(artifactName)) {
+      if (fileNameWithoutPrefix === artifactName) {
          matchingFiles.push(fullPath);
          console.log(fullPath);
       }
