@@ -27,7 +27,7 @@
     "@types/node": "^13.7.0",
     "@types/q": "^1.5.2",
     "@types/vso-node-api": "^4.0.0",
-    "mocha": "^7.0.1",
+    "mocha": "^7.2.0",
     "sync-request": "^6.1.0"
   }
 }
