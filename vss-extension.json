@@ -2,7 +2,7 @@
    "manifestVersion": 1,
    "id": "ReleaseArtifacts",
    "name": "Publish and Download Artifacts from Release Pipelines",
-   "version": "1.2.0",
+   "version": "1.2.1",
    "publisher": "benjhuser",
    "targets": [
       {

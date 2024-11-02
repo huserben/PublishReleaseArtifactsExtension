@@ -1,11 +1,11 @@
 import tl = require('azure-pipelines-task-lib/task');
 import fs = require('fs');
 import path = require('path');
-var zipper = require('zip-local');
+let zipper = require('zip-local');
 
 async function run() {
    try {
-      var artifactPath: string = getVariable('artifactPath', true);
+      let artifactPath: string = getVariable('artifactPath', true);
 
       if (!fs.existsSync(artifactPath)) {
          tl.setResult(tl.TaskResult.Failed, `No file or directory found at ${artifactPath}`);
@@ -23,13 +23,13 @@ async function run() {
       console.log(`##vso[task.uploadfile]${artifactPath}`);
       console.log('Finished uploading - task complete')
    }
-   catch (err: ?) {
+   catch (err : any) {
       tl.setResult(tl.TaskResult.Failed, err.message);
    }
 }
 
 function zip_file(artifactPath: string): string {
-   var artifact_zip: string = `${artifactPath}.zip`;
+   let artifact_zip: string = `${artifactPath}.zip`;
    zipper.sync.zip(artifactPath).compress().save(artifact_zip);
    return artifact_zip;
 }
