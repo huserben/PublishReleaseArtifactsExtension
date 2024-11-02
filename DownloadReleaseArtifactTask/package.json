@@ -1,6 +1,6 @@
 {
   "name": "downloadreleaseartifacttask",
-  "version": "1.0.0",
+  "version": "1.3.0",
   "description": "Let's you download a release artifact that before was uploaded using the Upload Task",
   "main": "index.js",
   "scripts": {
