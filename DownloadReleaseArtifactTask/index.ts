@@ -91,7 +91,7 @@ async function run() {
          copyArtifactToStorageLocation(artifactPath, unzipInCaseOfZip, artifactName, artifactStorageLocation);
       }
    }
-   catch (err: ?) {
+   catch (err: any) {
       tl.setResult(tl.TaskResult.Failed, err.message);
    }
 }
